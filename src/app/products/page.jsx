@@ -13,8 +13,14 @@ export default function Products() {
             </select>
           </div>
           <div className="flex items-center gap-2">
-            <button type="submit" className="bg-red-800 p-3 rounded-full text-white">
-              <LiaSearchSolid size={18} className="" />
+            <button
+              type="submit"
+              className="bg-red-800 p-3 rounded-full text-white"
+            >
+              <LiaSearchSolid
+                size={18}
+                className=""
+              />
             </button>
             <input
               name="query"
