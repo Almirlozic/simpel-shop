@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Cart from "./Cart";
 import { CiShoppingCart } from "react-icons/ci";
 
 const Header = () => {
@@ -9,7 +10,7 @@ const Header = () => {
           <Link href="/">Home</Link>
           <Link href="/products">Products</Link>
         </div>
-        <CiShoppingCart size={30} />
+        <Cart />
       </nav>
     </header>
   );
