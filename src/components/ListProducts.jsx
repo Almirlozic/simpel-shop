@@ -1,18 +1,28 @@
 import Product from "./Product";
+
 const ListProducts = ({ searchParams }) => {
-  return <FetchBreeds searchParams={searchParams} />;
+  return <FetchProducts searchParams={searchParams} />;
 };
 
 const FetchProducts = async ({ searchParams }) => {
-  "use server";
-  const { query } = await searchParams;
+  const { query, sort } = await searchParams;
+
   const url = query
     ? `https://dummyjson.com/products/search?q=${query}`
     : "https://dummyjson.com/products";
-  const res = await fetch(url, {
-    cache: "no-store",
-  });
+
+  const res = await fetch(url, { cache: "no-store" });
   const data = await res.json();
+
+  let products = [...data.products];
+
+  if (sort === "asc") {
+    products.sort((a, b) => a.price - b.price);
+  } else if (sort === "desc") {
+    products.sort((a, b) => b.price - a.price);
+  }
+  console.log("SORT:", sort);
+
   if (data.products.length === 0) {
     return <div className="flex justify-center items-center h-[50vh]">no products found</div>;
   }
@@ -20,7 +30,7 @@ const FetchProducts = async ({ searchParams }) => {
   return (
     <div className="w-full mt-10">
       <div className="grid grid-cols-3 w-full">
-        {data.products.map((product) => (
+        {products.map((product) => (
           <Product
             key={product.id}
             id={product.id}
@@ -35,4 +45,4 @@ const FetchProducts = async ({ searchParams }) => {
   );
 };
 
-export default FetchProducts;
+export default ListProducts;
