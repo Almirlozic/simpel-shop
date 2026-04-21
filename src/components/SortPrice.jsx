@@ -1,12 +1,13 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const SortPrice = () => {
-  const [sort, setSort] = useState(() => {
-    if (typeof window === "undefined") return "asc";
+  const [sort, setSort] = useState("asc");
+
+  useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    return params.get("sort") || "asc";
-  });
+    setSort(params.get("sort") || "asc");
+  }, []);
 
   const handleChange = (e) => {
     const value = e.target.value;
