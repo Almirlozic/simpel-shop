@@ -1,13 +1,21 @@
 import Product from "./Product";
-const ListProducts = () => {
-  return <FetchBreeds />;
+const ListProducts = ({ searchParams }) => {
+  return <FetchBreeds searchParams={searchParams} />;
 };
 
-const FetchProducts = async () => {
-  const res = await fetch(
-    "https://dummyjson.com/products"
-  );
+const FetchProducts = async ({ searchParams }) => {
+  "use server";
+  const { query } = await searchParams;
+  const url = query
+    ? `https://dummyjson.com/products/search?q=${query}`
+    : "https://dummyjson.com/products";
+  const res = await fetch(url, {
+    cache: "no-store",
+  });
   const data = await res.json();
+  if (data.products.length === 0) {
+    return <div className="flex justify-center items-center h-[50vh]">no products found</div>;
+  }
 
   return (
     <div className="w-full mt-10">
