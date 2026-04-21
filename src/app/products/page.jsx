@@ -2,19 +2,14 @@ import ListProducts from "@/components/ListProducts";
 import { LiaSearchSolid } from "react-icons/lia";
 import { Suspense } from "react";
 import LoadingProducts from "@/components/Loading";
+import SortPrice from "@/components/SortPrice";
 
 export default function Products({ searchParams }) {
   return (
     <>
-      <form>
+      <form method="get">
         <div className="flex items-center justify-between mt-20 px-8">
-          <div>
-            <select name="sort">
-              <option value="asc">Low - High</option>
-              <option value="desc">High - Low</option>
-            </select>
-          </div>
-
+          <SortPrice />
           <div className="flex items-center gap-2">
             <button type="submit" className="bg-red-800 p-3 rounded-full text-white">
               <LiaSearchSolid size={18} />
