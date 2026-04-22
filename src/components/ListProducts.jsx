@@ -1,18 +1,18 @@
 import Product from "./Product";
+import { getProducts } from "@/app/lib/api";
 
 const ListProducts = ({ searchParams }) => {
-  return <FetchProducts searchParams={searchParams} />;
+  return (
+    <FetchProducts searchParams={searchParams} />
+  );
 };
 
-const FetchProducts = async ({ searchParams }) => {
+const FetchProducts = async ({
+  searchParams,
+}) => {
   const { query, sort } = await searchParams;
 
-  const url = query
-    ? `https://dummyjson.com/products/search?q=${query}`
-    : "https://dummyjson.com/products";
-
-  const res = await fetch(url, { cache: "no-store" });
-  const data = await res.json();
+  const data = await getProducts(query);
 
   let products = [...data.products];
 
@@ -21,10 +21,13 @@ const FetchProducts = async ({ searchParams }) => {
   } else if (sort === "desc") {
     products.sort((a, b) => b.price - a.price);
   }
-  console.log("SORT:", sort);
 
-  if (data.products.length === 0) {
-    return <div className="flex justify-center items-center h-[50vh]">no products found</div>;
+  if (products.length === 0) {
+    return (
+      <div className="flex justify-center items-center h-[50vh]">
+        no products found
+      </div>
+    );
   }
 
   return (
@@ -37,7 +40,7 @@ const FetchProducts = async ({ searchParams }) => {
             price={product.price}
             title={product.title}
             brand={product.brand}
-            img={product.images[0]}
+            img={product.images?.[0]}
           />
         ))}
       </div>
