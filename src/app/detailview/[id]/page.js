@@ -3,6 +3,7 @@ import Link from "next/link";
 import { FaRegStar } from "react-icons/fa";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { getProduct } from "@/app/lib/api";
+import ButtonCart from "@/components/ButtonCart";
 
 const DetailView = async ({ params }) => {
   const { id } = await params;
@@ -26,15 +27,21 @@ const DetailView = async ({ params }) => {
           className="object-cover"
         />
       </div>
-
       <div className="mt-10 space-y-4 leading-loose">
         <h2>{data.title}</h2>
         <p>{data.description}</p>
+        <ButtonCart
+          product={{
+            id: data.id,
+            img: data.images?.[0],
+            title: data.title,
+            price: data.price,
+            brand: data.brand,
+          }}
+        />
       </div>
       <div className=" col-span-2 border-b mt-10"></div>
-      <h2 className="text-center text-4xl col-span-2">
-        Reviews
-      </h2>
+      <h2 className="text-center text-4xl col-span-2">Reviews</h2>
       <div className="flex justify-center col-span-2 gap-50 mb-20">
         {data.reviews?.map((review, index) => {
           return (
@@ -47,9 +54,7 @@ const DetailView = async ({ params }) => {
                 ))}
               </p>
               <p>{review.comment}</p>
-              <p className="text-sm">
-                {review.reviewerName}
-              </p>
+              <p className="text-sm">{review.reviewerName}</p>
             </div>
           );
         })}
